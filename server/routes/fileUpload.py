@@ -1,6 +1,6 @@
 from fastapi import APIRouter, UploadFile, File,Request
 from datetime import datetime
-from dal.fileUpload import insert_file_details_to_database,save_uploaded_file_to_s3
+from dal.sqlite_fileUpload import insert_file_details_to_database,save_uploaded_file_locally
 from dal.config import get_user_id
 
 router = APIRouter()
@@ -11,9 +11,9 @@ async def upload_file(folder_id,request: Request, file: UploadFile = File(...)):
 
     # Decrypt the session token to get user_id
     user_id=get_user_id(request)
-    # Save the file to S3
+    # Save the file to local storage
 
-    file_path = await save_uploaded_file_to_s3(file,user_id)
+    file_path = await save_uploaded_file_locally(file,user_id)
     if file_path is None:
         return {"error": "File upload failed"}
 

@@ -26,10 +26,10 @@ app.add_middleware(
     allow_headers=["*"],
 )
 app.include_router(home_routes, prefix="")
-app.include_router(tool_bar_router, prefix="")
-app.include_router(three_dots_router, prefix="")
-app.include_router(file_upload, prefix="")
-app.include_router(deleted_router,prefix="")
+# app.include_router(tool_bar_router, prefix="")
+# app.include_router(three_dots_router, prefix="")
+# app.include_router(file_upload, prefix="")
+# app.include_router(deleted_router,prefix="")
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
 
@@ -176,5 +176,9 @@ def new_password(Pass:Pass):
        
         raise CustomHTTPException(status_code=400, detail="cannot update")
 
+
+if __name__ == "__main__":
+    import uvicorn
+    uvicorn.run(app, host="0.0.0.0", port=8000)
 
  

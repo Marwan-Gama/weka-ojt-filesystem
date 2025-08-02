@@ -1,70 +1,216 @@
-# Web File Storage System
+# Weka File Storage System
 
-## Overview
+A modern web-based file storage system built with FastAPI, React, and MySQL.
 
-This project aims to develop a secure web-based file storage system that allows users to upload, download, and manage their files. The application will be implemented in Python using the Flask framework, and it will utilize MySQL for storing user data and file information. The project involves the creation of RESTful APIs, implementing security measures, and providing a user-friendly web interface.
+## 🚀 Features
 
-## Features
+- **User Authentication**: Secure registration and login system
+- **File Upload & Download**: Drag-and-drop file upload with progress tracking
+- **Folder Management**: Create, organize, and manage folders
+- **File Sharing**: Share files with other users via email
+- **Security**: Password hashing, session management, and file access control
+- **Modern UI**: Responsive React interface with Vite for fast development
+- **Database**: MySQL database for reliable data storage
+- **Environment Configuration**: Secure database credentials using .env files
 
-### 1. File Upload & Download
+## 🛠️ Technology Stack
 
-1.1 Users can upload files to the system.
-1.2 Uploaded files are stored securely.
-1.3 Users can view a list of their uploaded files and download them.
-1.4 Users can share files with other users.
-1.5 Web-based user interface.
+- **Backend**: FastAPI (Python)
+- **Frontend**: React + Vite (JavaScript)
+- **Database**: MySQL
+- **Authentication**: Session-based with password hashing
+- **File Storage**: Local file system with database tracking
+- **Configuration**: Environment variables with python-dotenv
 
-### 2. Security
+## 📁 Project Structure
 
-2.1 Users can register, login, and logout.
-2.2 Secured authentication process with password hashing, session/cookies, etc.
-2.3 User input validations and protection against common security vulnerabilities like SQL injection.
-2.4 Redirect users to the home screen or their last browsed location upon successful sign-in/logged in.
+```
+weka-ojt-filesystem/
+├── client/                 # React frontend
+│   ├── src/
+│   ├── package.json
+│   └── vite.config.js
+├── server/                 # FastAPI backend
+│   ├── dal/               # Data access layer
+│   ├── routes/            # API routes
+│   ├── uploads/           # File storage directory
+│   ├── main.py            # FastAPI application
+│   ├── requirements.txt   # Python dependencies
+│   └── mysql_details.py   # Database configuration (legacy)
+├── .env                   # Environment variables (auto-generated)
+├── setup_mysql.py         # Database setup script
+├── database_setup.sql     # SQL schema
+└── README.md
+```
 
-### 3. File Administration
+## 🚀 Quick Start
 
-3.1 Create folders.
-3.2 Move files/folders.
-3.3 Rename file/folder names.
-3.4 Delete file(s)/folder(s).
-3.5 Implement a Recycle Bin for deleted files.
-3.6 Enable search functionality (free text, file types, etc.).
-3.7 Allow users to sort their view.
-3.8 Enable file versioning.
+### Prerequisites
 
-### 4. Error Handling & Logging
+- Python 3.8+
+- Node.js 16+
+- MySQL 8.0+
 
-4.1 Display meaningful messages to users.
-4.2 Record important events by logging them.
+### 1. Clone the Repository
 
-## Technologies Used
+```bash
+git clone <repository-url>
+cd weka-ojt-filesystem
+```
 
-- Fast Api
-- MySQL
-- GitHub
-- HTML/CSS/JS
-- Bootstrap/React - Vite
-- Amazon Web Services (S3, Serverless)
-- Automation Testing - Pytest
+### 2. Set Up MySQL Database
 
-## Development Process
+1. **Install MySQL** if not already installed
+2. **Run the setup script**:
+   ```bash
+   python setup_mysql.py
+   ```
+   - Enter your MySQL root password when prompted
+   - The script will create the database, tables, and `.env` file automatically
 
-1. **Wireframe**: Create a visual representation of the application's user interface.
+### 3. Install Dependencies
 
-2. **UML**: Develop UML diagrams to represent the system's architecture and relationships.
+**Backend (Python)**:
 
-3. **Database Schema**: Design a database schema supporting user accounts, file metadata, and folder hierarchy.
+```bash
+cd server
+pip install -r requirements.txt
+```
 
-4. **Server APIs**: Design the APIs that will handle communication between the client and server.
+**Frontend (Node.js)**:
 
-5. **Testing**: Design unit, integration, and end-to-end testing strategies.
+```bash
+cd client
+npm install
+```
 
-6. **Requirements Document and Issues**: Create a detailed requirements document and GitHub issues based on wireframes, UML, and database schema.
+### 4. Run the Application
 
-7. **Coding**: Start coding after wireframes, UML, and database schema are finalized.
+**Start the Backend Server**:
 
-8. **Git Team-Behavior**: Use Git issues for task tracking. Each team member should assign themselves to an issue and create a dedicated branch per issue, following a descriptive naming convention.
+```bash
+cd server
+python main.py
+```
 
-9. **PR and Issues Manager**: Appoint one team member to be the PR and Issues manager for a week. They will oversee pull requests and manage issues during that period.
+The FastAPI server will start on `http://localhost:8000`
 
-**Note:** Follow the development process meticulously for a well-organized and efficient project workflow.
+**Start the Frontend Server** (in a new terminal):
+
+```bash
+cd client
+npm run dev
+```
+
+The React app will start on `http://localhost:5173`
+
+### 5. Access the Application
+
+- **Frontend**: Open `http://localhost:5173` in your browser
+- **API Documentation**: Visit `http://localhost:8000/docs` for interactive API docs
+
+## 🔧 Configuration
+
+### Environment Variables
+
+The application uses environment variables for secure configuration. The `.env` file is automatically created by the setup script and contains:
+
+```env
+# MySQL Database Configuration
+DB_HOST=localhost
+DB_PORT=3306
+DB_USER=root
+DB_PASSWORD=your_mysql_password
+DB_NAME=filesystem
+
+# Application Configuration
+APP_HOST=0.0.0.0
+APP_PORT=8000
+SECRET_KEY=your-secret-key-here-change-in-production
+```
+
+**Security Note**: The `.env` file is automatically added to `.gitignore` to prevent committing sensitive information to version control.
+
+### Database Configuration
+
+The MySQL connection details are automatically loaded from environment variables. The legacy `server/mysql_details.py` file is kept for backward compatibility but is no longer used.
+
+### File Storage
+
+Files are stored locally in the `server/uploads/` directory and referenced in the database.
+
+## 🧪 Testing
+
+### API Testing
+
+You can test the API endpoints using the interactive documentation at `http://localhost:8000/docs` or use curl:
+
+```bash
+# Test signup
+curl -X POST "http://localhost:8000/signup" \
+  -H "Content-Type: application/json" \
+  -d '{"username":"TestUser","email":"test@example.com","password":"Password123"}'
+
+# Test login
+curl -X POST "http://localhost:8000/login" \
+  -H "Content-Type: application/json" \
+  -d '{"email":"test@example.com","password":"Password123"}'
+```
+
+## 🛡️ Security Features
+
+- **Password Hashing**: Passwords are hashed using bcrypt
+- **Session Management**: Secure session handling with cookies
+- **Input Validation**: Comprehensive validation for all user inputs
+- **File Access Control**: Users can only access their own files
+- **SQL Injection Protection**: Parameterized queries prevent SQL injection
+
+## 📝 API Endpoints
+
+### Authentication
+
+- `POST /signup` - User registration
+- `POST /login` - User login
+- `POST /logout` - User logout
+
+### File Management
+
+- `POST /upload` - Upload files
+- `GET /files` - List user files
+- `GET /download/{file_id}` - Download files
+- `DELETE /files/{file_id}` - Delete files
+
+### Folder Management
+
+- `POST /folders` - Create folders
+- `GET /folders` - List user folders
+- `DELETE /folders/{folder_id}` - Delete folders
+
+## 🤝 Contributing
+
+1. Fork the repository
+2. Create a feature branch
+3. Make your changes
+4. Test thoroughly
+5. Submit a pull request
+
+## 📄 License
+
+This project is licensed under the MIT License.
+
+## 🆘 Troubleshooting
+
+### Common Issues
+
+1. **MySQL Connection Error**: Ensure MySQL is running and the password in `mysql_details.py` is correct
+2. **Port Already in Use**: Kill processes using ports 8000 or 5173
+3. **Missing Dependencies**: Run `pip install -r requirements.txt` and `npm install`
+
+### Getting Help
+
+If you encounter issues:
+
+1. Check the console output for error messages
+2. Verify all prerequisites are installed
+3. Ensure MySQL is running and accessible
+4. Check that all dependencies are installed correctly
